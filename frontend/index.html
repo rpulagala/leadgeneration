@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Generation · Dashboard</title>
+<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      LeadGen
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="/">Dashboard</a>
+      <a class="nav-link" href="/agencies.html">Agencies</a>
+      <a class="nav-link" href="/communications.html">Communications</a>
+      <a class="nav-link" href="/meetings.html">Meetings</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">UK Care Agency Lead Generation</p>
+    </div>
+    <a class="btn btn-primary" href="/agencies.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Find Agencies
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card accent">
+      <div class="stat-label">Total Agencies</div>
+      <div class="stat-value" id="stat-agencies">—</div>
+      <div class="stat-sub">in database</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Emails Sent</div>
+      <div class="stat-value" id="stat-sent">—</div>
+      <div class="stat-sub">outreach emails</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Responses</div>
+      <div class="stat-value" id="stat-received">—</div>
+      <div class="stat-sub">emails received</div>
+    </div>
+    <div class="stat-card warning">
+      <div class="stat-label">Meetings</div>
+      <div class="stat-value" id="stat-meetings">—</div>
+      <div class="stat-sub" id="stat-meetings-sub">scheduled</div>
+    </div>
+    <div class="stat-card success">
+      <div class="stat-label">Conversions</div>
+      <div class="stat-value" id="stat-conversions">—</div>
+      <div class="stat-sub">agencies converted</div>
+    </div>
+  </div>
+
+  <!-- Pipeline & Activity -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Pipeline Overview</span>
+        <a href="/agencies.html" class="btn btn-secondary btn-sm">View All</a>
+      </div>
+      <div class="card-body" id="pipeline-body">
+        <div style="color:var(--text-secondary);text-align:center;padding:32px">Loading…</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Recent Activity</span>
+      </div>
+      <div class="card-body">
+        <div class="activity-list" id="activity-list">
+          <div style="color:var(--text-secondary);text-align:center;padding:32px">Loading…</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick actions -->
+  <div class="card" style="margin-top:20px">
+    <div class="card-header"><span class="card-title">Quick Actions</span></div>
+    <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/agencies.html" class="btn btn-primary">
+        🔍 Find UK Care Agencies
+      </a>
+      <a href="/communications.html" class="btn btn-secondary">
+        ✉️ Send Outreach Email
+      </a>
+      <a href="/meetings.html" class="btn btn-secondary">
+        📅 Schedule Meeting
+      </a>
+      <a href="/communications.html" class="btn btn-secondary">
+        📥 Check Inbox
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<script src="/static/js/app.js"></script>
+<script>
+async function loadDashboard() {
+  try {
+    const stats = await api('/api/agencies/stats');
+    document.getElementById('stat-agencies').textContent = stats.total_agencies;
+    document.getElementById('stat-sent').textContent = stats.emails_sent;
+    document.getElementById('stat-received').textContent = stats.emails_received;
+    document.getElementById('stat-meetings').textContent = stats.meetings_scheduled;
+    document.getElementById('stat-meetings-sub').textContent =
+      `${stats.meetings_completed} completed`;
+    document.getElementById('stat-conversions').textContent = stats.conversions;
+
+    // Pipeline
+    const pipelineStages = [
+      { key: 'new', label: 'New', color: '#3b5bdb' },
+      { key: 'contacted', label: 'Contacted', color: '#e65100' },
+      { key: 'responded', label: 'Responded', color: '#2e7d32' },
+      { key: 'meeting_scheduled', label: 'Meeting Scheduled', color: '#7c3aed' },
+      { key: 'converted', label: 'Converted', color: '#34c759' },
+    ];
+
+    const agencies = await api('/api/agencies?limit=500');
+    const counts = {};
+    agencies.forEach(a => { counts[a.status] = (counts[a.status] || 0) + 1; });
+    const total = agencies.length || 1;
+
+    document.getElementById('pipeline-body').innerHTML = pipelineStages.map(s => {
+      const n = counts[s.key] || 0;
+      const pct = Math.round((n / total) * 100);
+      return `
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:14px;font-weight:600">${s.label}</span>
+            <span style="font-size:14px;color:var(--text-secondary)">${n}</span>
+          </div>
+          <div style="background:var(--border-light);border-radius:var(--radius-pill);height:8px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:${s.color};border-radius:var(--radius-pill);transition:width 0.6s ease"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Activity
+    const actEl = document.getElementById('activity-list');
+    if (!stats.recent_activity.length) {
+      actEl.innerHTML = `<div class="empty-state" style="padding:32px 0"><p>No activity yet. Start by finding UK care agencies.</p></div>`;
+    } else {
+      actEl.innerHTML = stats.recent_activity.map(a => `
+        <div class="activity-item">
+          <div class="activity-icon ${a.type}">${a.type === 'email' ? '✉️' : '📅'}</div>
+          <div class="activity-meta">
+            <div class="activity-title">${a.type === 'email' ? a.subject : a.title}</div>
+            <div class="activity-sub">${a.agency} · ${fmtDate(a.date)} · ${badge(a.direction || a.status)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch (e) {
+    toast(e.message, 'error');
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

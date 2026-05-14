@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Generation · Communications</title>
+<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      LeadGen
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/">Dashboard</a>
+      <a class="nav-link" href="/agencies.html">Agencies</a>
+      <a class="nav-link active" href="/communications.html">Communications</a>
+      <a class="nav-link" href="/meetings.html">Meetings</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Communications</h1>
+      <p class="page-subtitle">Track sent and received emails with UK care agencies</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button id="fetch-btn" class="btn btn-secondary" onclick="fetchInbox()">📥 Check Inbox</button>
+      <button class="btn btn-primary" onclick="openModal('compose-modal')">✉️ Compose Email</button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="toolbar">
+    <select id="filter-agency" class="form-control" style="width:220px;border-radius:var(--radius-pill)">
+      <option value="">All agencies</option>
+    </select>
+    <select id="filter-direction" class="form-control" style="width:160px;border-radius:var(--radius-pill)">
+      <option value="">Sent & Received</option>
+      <option value="sent">Sent only</option>
+      <option value="received">Received only</option>
+    </select>
+  </div>
+
+  <!-- Email split view -->
+  <div class="email-layout">
+    <div class="email-list" id="email-list">
+      <div style="text-align:center;padding:40px;color:var(--text-secondary)">Loading…</div>
+    </div>
+    <div class="email-detail" id="email-detail">
+      <div class="empty-state">
+        <h3>Select an email</h3>
+        <p>Choose an email from the list to view it here.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Compose Modal -->
+<div class="modal-overlay" id="compose-modal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <span class="modal-title">Compose Outreach Email</span>
+      <button class="modal-close" onclick="closeModal('compose-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="compose-form">
+        <div class="form-group">
+          <label class="form-label">To (Agency) *</label>
+          <select class="form-control" id="send-agency">
+            <option value="">Select agency…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject *</label>
+          <input class="form-control" id="send-subject" placeholder="Partnership Opportunity – [Company Name]">
+        </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:10px">
+          <input type="checkbox" id="use-template" style="width:16px;height:16px;cursor:pointer">
+          <label for="use-template" class="form-label" style="margin:0;cursor:pointer">
+            Use professional outreach template
+          </label>
+        </div>
+        <div id="template-hint" style="display:none;background:var(--surface-alt);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-secondary)">
+          The outreach template will be used. The message body below will be ignored if the template is selected.
+          Configure company details in the <code>.env</code> file.
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-control" id="send-body" style="min-height:180px"
+            placeholder="Write your message here, or check the box above to use the professional template…"></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('compose-modal')">Cancel</button>
+          <button type="submit" id="send-btn" class="btn btn-primary">Send Email</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="/static/js/app.js"></script>
+<script src="/static/js/communications.js"></script>
+</body>
+</html>

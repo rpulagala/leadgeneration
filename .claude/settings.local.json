@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\backend\\\\routes\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\backend\\\\services\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\backend\\\\templates\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\frontend\\\\css\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\frontend\\\\js\")",
+      "Bash(pip install *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell($py = \"C:\\\\Python314\\\\python.exe\"; & $py --version; & $py -m pip install -r \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\backend\\\\requirements.txt\" --quiet 2>&1 | Select-Object -Last 8)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(py *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\" -Recurse -File | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\rpula\\\\OneDrive\\\\Documents\\\\ClaudeCodeProjects\\\\LeadGeneration\\\\\",\"\"\\) } | Sort-Object)",
+      "PowerShell(winget *)",
+      "Bash(curl -s http://localhost:8000/health)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/agencies.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/communications.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/meetings.html)",
+      "Bash(curl -s http://localhost:8000/api/agencies/stats)",
+      "PowerShell(Start-Process \"http://localhost:8000\")"
+    ]
+  }
+}

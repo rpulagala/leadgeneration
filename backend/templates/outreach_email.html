@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partnership Opportunity</title>
+<style>
+  body { margin: 0; padding: 0; background: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  .wrapper { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .header { background: linear-gradient(135deg, #1d1d1f 0%, #333336 100%); padding: 40px 48px; }
+  .header h1 { color: #fff; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
+  .header p { color: #a1a1a6; font-size: 14px; margin: 8px 0 0; }
+  .body { padding: 40px 48px; color: #1d1d1f; }
+  .body p { font-size: 16px; line-height: 1.7; margin: 0 0 18px; color: #3d3d3f; }
+  .body .greeting { font-size: 18px; font-weight: 600; color: #1d1d1f; margin-bottom: 24px; }
+  .highlight-box { background: #f5f5f7; border-radius: 12px; padding: 24px 28px; margin: 28px 0; }
+  .highlight-box h3 { margin: 0 0 16px; font-size: 16px; font-weight: 700; color: #1d1d1f; }
+  .highlight-box ul { margin: 0; padding: 0 0 0 20px; }
+  .highlight-box ul li { font-size: 15px; color: #3d3d3f; margin-bottom: 10px; line-height: 1.5; }
+  .cta-btn { display: inline-block; background: #0066cc; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 980px; font-size: 16px; font-weight: 600; margin: 12px 0 24px; }
+  .footer { background: #f5f5f7; padding: 28px 48px; border-top: 1px solid #e5e5ea; }
+  .footer p { font-size: 13px; color: #6e6e73; margin: 0 0 6px; line-height: 1.6; }
+  .footer a { color: #0066cc; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>{{ company_name }}</h1>
+    <p>Empowering UK Care Agencies</p>
+  </div>
+  <div class="body">
+    <p class="greeting">Dear {{ contact_person }},</p>
+    <p>
+      My name is <strong>{{ sender_name }}</strong>, {{ sender_title }} at <strong>{{ company_name }}</strong>.
+      I'm reaching out because we specialise in helping UK care agencies like <strong>{{ agency_name }}</strong>
+      improve operational efficiency, compliance, and staff management.
+    </p>
+    <p>
+      We understand the unique challenges facing care agencies today — from CQC compliance and staff scheduling
+      to retention and recruitment. Our platform is designed specifically to solve these challenges.
+    </p>
+    <div class="highlight-box">
+      <h3>How we can help {{ agency_name }}:</h3>
+      <ul>
+        <li><strong>Streamlined Staff Scheduling</strong> — Reduce admin time by up to 70% with intelligent rota management</li>
+        <li><strong>CQC Compliance Monitoring</strong> — Stay audit-ready with automated compliance tracking and reporting</li>
+        <li><strong>Staff Recruitment &amp; Retention</strong> — Access a vetted pool of qualified care workers across the UK</li>
+        <li><strong>Digital Care Planning</strong> — Replace paper-based care plans with a GDPR-compliant digital system</li>
+        <li><strong>Real-Time Reporting</strong> — Instant dashboards for KPIs, incidents, and quality metrics</li>
+      </ul>
+    </div>
+    <p>
+      Many of our partner agencies have seen measurable improvements within the first 90 days.
+      I'd love to schedule a brief 20-minute call to understand your current challenges
+      and show you how we've helped similar agencies.
+    </p>
+    <p>Would you be available for a call this week or next?</p>
+    <a href="mailto:{{ company_name | lower | replace(' ', '') }}@email.com?subject=Re: Partnership Opportunity" class="cta-btn">
+      Reply to Schedule a Call
+    </a>
+    <p>
+      You can also visit us at <a href="{{ company_website }}">{{ company_website }}</a>
+      or call us on <strong>{{ company_phone }}</strong>.
+    </p>
+    <p>I look forward to hearing from you.</p>
+    <p>Warm regards,<br><strong>{{ sender_name }}</strong><br>{{ sender_title }}<br>{{ company_name }}</p>
+  </div>
+  <div class="footer">
+    <p>{{ company_name }} | <a href="{{ company_website }}">{{ company_website }}</a> | {{ company_phone }}</p>
+    <p>You are receiving this email because we believe our services may benefit your care agency.
+       To unsubscribe, reply with "unsubscribe" in the subject line.</p>
+  </div>
+</div>
+</body>
+</html>
