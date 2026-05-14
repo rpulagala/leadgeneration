@@ -7,6 +7,10 @@ services:
     buildCommand: pip install -r backend/requirements.txt
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: PYTHONPATH
+        value: backend
       - key: DATABASE_URL
         value: sqlite:///./leadgen.db
       - key: COMPANY_NAME
